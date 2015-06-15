@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with friendlymemoize. If not, see <http://www.gnu.org/licenses/>.
 
+// TODO: Instead of only having an array for in-memory cache, indexed by
+//       whole-number inputs, and coercing localStorage output to whole
+//       numbers, use (de-)serialisation for arbitrary types (stringified
+//       input for localStorage & in-memory-object keys, and stringified
+//       output for localStorage values).
+
 var FriendlyMemoize = function(formula, mem_limit, disk_limit) {
     var def_mem_limit = 100;
     var def_disk_limit = 200;
@@ -50,7 +56,7 @@ var FriendlyMemoize = function(formula, mem_limit, disk_limit) {
                     if (n >= disk_limit) {
                         result = null;
                     } else if (n >= mem_limit) {
-                        result = localStorage.getItem(disk_keys_pref + n);
+                        result = Number(localStorage.getItem(disk_keys_pref + n));
                     } else {
                         result = memoized[n];
                     };
